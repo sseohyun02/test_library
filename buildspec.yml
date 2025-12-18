@@ -8,21 +8,25 @@ phases:
     commands:
       - echo "Install phase - start"
 
-  pre_build:
-    commands:
-      - echo "Pre-build phase - start"
-      - chmod +x gradlew || true
+pre_build:
+  commands:
+    - echo "Pre-build phase - start"
+    - cd backend
+    - chmod +x gradlew
 
-  build:
-    commands:
-      - echo "Build backend (gradle at repo root)"
-      - ./gradlew clean test build
+build:
+  commands:
+    - echo "Build backend"
+    - cd backend
+    - ./gradlew clean test build
+    - cd ..
 
-      - echo "Build frontend"
-      - cd frontend
-      - npm ci
-      - npm run build
-      - cd ..
+    - echo "Build frontend"
+    - cd frontend
+    - npm ci
+    - npm run build
+    - cd ..
+
 
   post_build:
     commands:
@@ -30,7 +34,5 @@ phases:
 
 artifacts:
   files:
-    - build/libs/*.jar
+    - backend/build/libs/*.jar
     - frontend/dist/**/*
-    - appspec.yml
-    - scripts/**/*
