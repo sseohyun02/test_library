@@ -7,28 +7,30 @@ phases:
       nodejs: 20
     commands:
       - echo "Install phase - start"
+
   pre_build:
     commands:
       - echo "Pre-build phase - start"
+      - chmod +x gradlew || true
+
   build:
     commands:
-      - echo "Build backend"
-      - cd backend
+      - echo "Build backend (gradle at repo root)"
       - ./gradlew clean test build
-      - cd ..
 
       - echo "Build frontend"
       - cd frontend
       - npm ci
       - npm run build
       - cd ..
+
   post_build:
     commands:
       - echo "Build completed"
 
 artifacts:
   files:
-    - backend/build/libs/*.jar
+    - build/libs/*.jar
     - frontend/dist/**/*
     - appspec.yml
     - scripts/**/*
