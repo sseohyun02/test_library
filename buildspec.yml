@@ -7,15 +7,11 @@ phases:
       nodejs: 20
     commands:
       - echo "Install phase - start"
-      - pwd
-      - ls -al
 
   pre_build:
     commands:
       - echo "Pre-build phase - start"
-      - cd backend
-      - chmod +x gradlew
-      - cd ..
+      - chmod +x backend/gradlew
 
   build:
     commands:
@@ -24,7 +20,7 @@ phases:
       - ./gradlew clean test build
       - cd ..
 
-      - echo "Build frontend (Vite)"
+      - echo "Build frontend"
       - cd frontend
       - npm ci
       - npm run build
@@ -32,7 +28,7 @@ phases:
 
   post_build:
     commands:
-      - echo "Build completed - verify outputs"
+      - echo "Build completed"
       - ls -al backend/build/libs || true
       - ls -al frontend/dist || true
 
